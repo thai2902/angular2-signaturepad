@@ -19,12 +19,27 @@ export type PointGroup = Array<Point>;
 
 export class SignaturePad {
 
-  @Input() public options: Object;
+
+
   @Output() public onBeginEvent: EventEmitter<boolean>;
   @Output() public onEndEvent: EventEmitter<boolean>;
 
   private signaturePad: any;
   private elementRef: ElementRef;
+  private _options: Object;
+  private _flgInit = false;
+
+  @Input()
+  set options(options) {
+    this._options = options;
+    if (this._flgInit) {
+      this.resizeCanvas();
+    }
+  };
+
+  get options() {
+    return this._options;
+  }
 
   constructor(elementRef: ElementRef) {
     // no op
@@ -35,6 +50,10 @@ export class SignaturePad {
   }
 
   public ngAfterContentInit(): void {
+    this.init();
+  }
+
+  public init(): void {
     let sp: any = require('signature_pad')['default'];
     let canvas: any = this.elementRef.nativeElement.querySelector('canvas');
 
@@ -49,6 +68,7 @@ export class SignaturePad {
     this.signaturePad = new sp(canvas, this.options);
     this.signaturePad.onBegin = this.onBegin.bind(this);
     this.signaturePad.onEnd = this.onEnd.bind(this);
+    this._flgInit = true;
   }
 
   public resizeCanvas(): void {

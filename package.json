@@ -6,7 +6,9 @@
   "typings": "./index.d.ts",
   "scripts": {
     "prepublish": "node ./node_modules/@angular/compiler-cli/src/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "compile": "tsc signature-pad.ts -t ES5 --lib ES6,DOM --experimentalDecorators"
   },
   "repository": {
     "type": "git",
